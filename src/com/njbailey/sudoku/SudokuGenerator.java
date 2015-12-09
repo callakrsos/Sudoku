@@ -48,6 +48,8 @@ public class SudokuGenerator {
     public void generate() {
         board.clear();
         
+        // The possible numbers that can go in each slot. 9 numbers for each
+        // of the 81 squares.
         List<List<Integer>> available = new ArrayList<>();
 
         for (int i = 0; i < WIDTH * HEIGHT; i++) {
@@ -60,9 +62,12 @@ public class SudokuGenerator {
             available.add(list);
         }
 
+        // The current square that's being processed.
         int current = 0;
 
         while (current < WIDTH * HEIGHT) {
+            // If we're not out of possible numbers for the current square
+            // generate a random one and add it to the board
             if (!available.get(current).isEmpty()) {
                 int index = getRandomIndex(available.get(current));
                 int value = available.get(current).get(index);
@@ -77,6 +82,8 @@ public class SudokuGenerator {
                     available.get(current).remove(index);
                 }
             } else {
+                // We're out of useable moves, rewind a square and try again,
+                // resetting the available numbers for the current square
                 for (int i = 0; i < 9; i++) {
                     available.get(current).add(i + 1);
                 }
@@ -86,6 +93,8 @@ public class SudokuGenerator {
             }
         }
 
+        // This really doesn't have anything to do with the generator. Maybe 
+        // move it elsewhere?
         mask();
     }
 
@@ -103,27 +112,21 @@ public class SudokuGenerator {
      * Mask out random values in the Sudoku board.
      */
     private void mask() {
-        int iterations = RANDOM.nextInt(2) + 1;
-
-        for (int x = 0; x < iterations; x++) {
+        for (int x = 0; x < 9; x++) {
             List<Integer> available = new ArrayList<>();
 
             for (int i = 0; i < 9; i++) {
                 available.add(i);
             }
 
-            int numToRemove = RANDOM.nextInt(2) + 1;
-
+            int numToRemove = RANDOM.nextInt(3);
+            
             for (int i = 0; i < numToRemove; i++) {
-                if (RANDOM.nextInt(10) < 3) {
-                    continue;
-                }
-
                 int r = getRandomIndex(available);
                 int value = available.get(r);
 
                 for (Item item : board.getItems()) {
-                    if (item.getRegion() == i + 1) {
+                    if (item.getRegion() == x + 1) {
                         if (item.getValue() == value) {
                             item.setHidden(true);
                         }

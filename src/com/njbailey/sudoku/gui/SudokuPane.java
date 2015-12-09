@@ -87,8 +87,6 @@ public class SudokuPane extends Pane {
         });
 
         setOnKeyTyped(e -> {
-            System.out.println("Key Typed Origin");
-
             char c = e.getCharacter().charAt(0);
 
             if (c < '1' || c > '9') {
@@ -196,7 +194,6 @@ public class SudokuPane extends Pane {
      * @param c the character that was typed.
      */
     private void handleKeyTyped(char c) {
-        System.out.println("Key Typed");
         if (activeCell != null) {
             int linearCoordinate = (int) activeCell.getY() * 9 + (int) activeCell.getX();
 
