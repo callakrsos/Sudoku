@@ -34,13 +34,6 @@ public class Sudoku extends Application {
             pane.setMinHeight(primaryStage.getHeight());
             pane.setH(scene.getHeight());
         });
-        
-        // This is weird. I don't like it. I don't think I thoroughly understand
-        // the correct way to actually handle games with JavaFX. So yea, when 
-        // the user wants to exit the SudokuPane is set to 'hidden' which 
-        // manipulates the 'visible' property... Then it notifies this, and 
-        // the window is closed.
-        pane.visibleProperty().addListener(e -> primaryStage.close());
 
         primaryStage.setTitle("Sudoku");
         primaryStage.setScene(scene);

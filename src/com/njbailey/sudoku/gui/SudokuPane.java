@@ -20,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -51,7 +52,7 @@ public class SudokuPane extends Pane {
      * The {@code Rectangle} that is draw into when a cell is highlighted.
      */
     private Rectangle activeCellRect;
-
+ 
     /**
      * The {@code Components} that show when the board is solved.
      */
@@ -101,7 +102,10 @@ public class SudokuPane extends Pane {
             SudokuPane.this.requestFocus();
         });
 
-        winnerPane.setOnExitProperty(e -> SudokuPane.super.setVisible(false));
+        winnerPane.setOnExitProperty(e -> {
+            Stage stage = (Stage) SudokuPane.this.getScene().getWindow();
+            stage.close();
+        });
 
         create();
     }
@@ -284,10 +288,13 @@ public class SudokuPane extends Pane {
         
         Bounds bounds = winnerPane.getBoundsInParent();
         int x = (int) getW() / 2 - (int) bounds.getWidth() / 2;
-        int y = (int) getH() / 2 - (int) bounds.getHeight() / 2;
+        int y = (int) getH() / 2 - (int) bounds.getHeight();
 
         // This is so ugly, and if you see this I am so sorry. 
-        Pane.positionInArea(winnerPane, x, y, bounds.getWidth(), bounds.getHeight(),
+        Pane.positionInArea(winnerPane, 
+                x, 
+                y, 
+                bounds.getWidth(), bounds.getHeight(),
                 rowSpacing, Insets.EMPTY, HPos.LEFT, VPos.TOP, true);
         
         getChildren().addAll(rectangle, winnerPane);

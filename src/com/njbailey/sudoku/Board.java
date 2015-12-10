@@ -80,6 +80,9 @@ public class Board {
         return Collections.unmodifiableList(Arrays.asList(items));
     }
     
+    /**
+     * Clear the board of {@code Item}s.
+     */
     public void clear() {
         for(int i = 0; i < 81; i++) {
             items[i] = null;
@@ -119,6 +122,9 @@ public class Board {
         return false;
     }
 
+    /**
+     * @return whether the {@code Board} is solved or not
+     */
     public boolean isSolved() {
         for (Item i : items) {
             if (i.getValue() == -1) {
@@ -133,6 +139,13 @@ public class Board {
         return true;
     }
 
+    /**
+     * Tests if the specified item is conflicting in the board.
+     * 
+     * @param board the {@code Sudoku} board
+     * @param item the {@code Item} to check
+     * @return true if it's conflicting, false otherwise
+     */
     public static boolean conflicting(Board board, Item item) {
         int count = 0;
 
